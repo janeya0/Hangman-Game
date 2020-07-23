@@ -1,0 +1,287 @@
+<html>
+<head>
+  <title>
+    Play Hangman
+  </title>
+  <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+</head>
+
+<style>
+
+a:link, a:visited {
+    color: black;
+    text-align: center;
+    text-decoration: none;
+}
+
+header {
+  height: 80px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 50px;
+}
+
+button {
+  height: 50px;
+  width: 80px;
+  border-radius: 4px;
+  background-color: #7AA6AD;
+  color: white;
+  border-width: 0px;
+  font-size: 16px;
+  margin:2px;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+  margin-left: 9%;
+  margin-right: 5%;
+}
+
+h3 {
+  font-size: 40px;
+  font-family: 'Raleway', sans-serif;
+}
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    padding: 8px;
+    background-color: #dddddd;
+}
+
+</style>
+
+<script>
+
+var randomnumber = Math.floor(15*Math.random());
+var words = new Array(15);
+words[0]= "cougar"
+words[1]= "poutine"
+words[2]= "keyboard"
+words[3]= "penguin"
+words[4]= "monkey"
+words[5]= "curtain"
+words[6]= "education"
+words[7]= "computers"
+words[8]= "thursday"
+words[9]= "festival"
+words[10]= "zebra"
+words[11]= "poland"
+words[12]= "closure"
+words[13]= "document"
+words[14]= "certify"
+var word = words[randomnumber]
+
+var final = "";
+var space = " ";
+var Charactercode;
+var i = -1;
+var sum=10;
+
+var correctSum=0;
+var wrongSum=0;
+var percent;
+
+
+function otherFunction(){
+while (i < word.length) {
+       i++;
+       Charactercode = word.charCodeAt(i);
+       if (Charactercode >= 97 && Charactercode <= 122) {
+         final = final + "-"
+         }
+       else {
+         final = final + space
+         }
+
+       }
+       document.getElementById("FINAL").innerHTML = final
+       document.getElementById("word").innerHTML = word
+}
+
+      function myFunction() {
+       for(x=1;x<=26;x++){
+           var btn = document.createElement("button");
+           var myP = document.createElement("br");
+
+           var letter = String.fromCharCode(x+96);
+           var t = document.createTextNode(letter);
+
+           btn.appendChild(t);
+           btn.id = letter;
+           btn.addEventListener("click", checkLetter);
+           document.body.appendChild(btn);
+           if (x%13==0) {
+             document.body.appendChild(myP);
+         }
+           }
+       }
+
+      function nameIntro(){
+        var name= document.getElementById("name").value;
+        document.getElementById("namePlace").innerHTML="Hello "+ name+ "! Welcome to this interactive Hangman game!<br>Click 'Start guessing' to begin the game, and 'Go to Home' will take you back to the home page.<br>While you're here, feel free to browse our website using the menu, and discover more!<br>Leave a comment and give us feedback on our 'Other' page for any questions or concerns.<br> So what are you waiting for "+name+"? Scroll down and start playing!";
+      }
+
+       function checkLetter(){
+         var newword = "";
+         document.getElementById("p1").innerHTML += this.id;
+         var finalword = document.getElementById("word").innerHTML;
+         var dashes = document.getElementById("FINAL").innerHTML;
+         var guess=this.id;
+
+         var i = " ";
+         var index = finalword.indexOf(guess);
+
+         if(finalword.includes(this.id)){
+
+         for (i=0; i<finalword.length; i++) {
+
+           if(finalword.charAt(i) == this.id) {
+             newword += finalword.charAt(i);
+             correctSum = correctSum +1;
+
+             //alert(correctSum);
+           }
+            else {
+             newword += dashes.charAt(i);
+           }
+           }
+           dashes = newword;
+           document.getElementById("FINAL").innerHTML = dashes;
+         }
+         else {
+           alert("Nice try, guess again!");
+           sum = sum -1;
+           heart(sum);
+           document.getElementById("sumId").innerHTML=sum;
+           wrongSum = wrongSum +1;
+           //alert(wrongSum);
+         }
+         if (sum==0) {
+           percent = "You got "+Math.round((correctSum/(correctSum+wrongSum))*100) + "% of your guesses correct";
+           document.getElementById("percent").innerHTML=percent;
+           document.getElementById("gameOver").innerHTML="GAME OVER";
+           document.getElementById("realWord").innerHTML = " The word was " + "'"+word+"'";
+           document.getElementById("restart").innerHTML="Click to Restart";
+
+         }
+         if (dashes==word) {
+          document.getElementById("win").innerHTML="You won!";
+          percent = "You got "+Math.round((correctSum/(correctSum+wrongSum))*100) + "% of your guesses correct.";
+          document.getElementById("percent").innerHTML=percent;
+         }
+    }
+
+    var image=" "
+    var l9 = "heart2.png"
+    var l8 = "heart3.png"
+    var l7 = "heart4.png"
+    var l6 = "heart5.png"
+    var l5 = "heart6.png"
+    var l4 = "heart7.png"
+    var l3 = "heart8.png"
+    var l2 = "heart9.png"
+    var l1 = "heartx.png"
+    var dead = "heart.png"
+
+    function heart(sum){
+        if (sum==9){
+          image=l9
+          document.getElementById("image").src=image;
+        }
+        else if(sum==8){
+          image=l8
+          document.getElementById("image").src=image;
+        }
+        else if(sum==7){
+          image=l7
+          document.getElementById("image").src=image;
+        }
+        else if(sum==6){
+          image=l6
+          document.getElementById("image").src=image;
+        }
+        else if(sum==5){
+          image=l5
+          document.getElementById("image").src=image;
+        }
+        else if(sum==4){
+          image=l4
+          document.getElementById("image").src=image;
+        }
+        else if(sum==3){
+          image=l3
+          document.getElementById("image").src=image;
+        }
+        else if(sum==2){
+          image=l2
+          document.getElementById("image").src=image;
+        }
+        else if(sum==1){
+          image=l1
+          document.getElementById("image").src=image;
+        }
+        else if(sum==0){
+          image=dead
+          document.getElementById("image").src=image;
+        }
+
+}
+
+
+</script>
+
+<header><center><br>
+<a href="homepage.html">HANGMAN</a>
+</center></header><br><br>
+<hr>
+<body>
+  <ul>
+    <li><a href="homepage.html">Home</a></li>
+    <li><a href="form.html">Feedback</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+<br><br>
+<center>
+  What's your name?<br><br>
+  <input type="text" id="name" style="padding:14px; width: 250px; font-family:'Quicksand', sans-serif;">
+  <button onclick="nameIntro()" style="background-color:grey;">OK</button><br><br><br>
+  <p id="namePlace"></p>
+  <br>
+
+  <button onclick="myFunction(); otherFunction();" style="width:250px; height:70px; color: grey; background-color: #DAF7A6;">Start guessing</button>&nbsp;
+   <button onclick="location.href='homepage.html';" style="width:250px; height:70px; background-color:powderblue;">Go to Home</button>&nbsp;
+   <button onclick="location.reload()" style="width:250px; height:70px; background-color:grey;">Restart</button>
+  <br><br><br>
+
+  </p>LIVES LEFT: &nbsp; &nbsp; &nbsp;<a id="sumId">10</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br>
+
+<img src ="heart1.png" id= "image">
+<b><u><h3>Letters picked:</h3></u></b> <a id ="p1"></a>
+
+
+<a id="right"></a>
+<p id="FINAL" style="font-size:50px;"></p>
+<a id="gameOver" style="color:red; font-size:60px;"></a><p>
+<a id="win" style="color:red; font-size:60px;"></a><br>
+<a id ="percent"></a>
+<a id="realWord"></a>
+  <a id="restart" style="color:red;" href="HANGMANFINAL.html"></a>
+<p id="word" style="color:white;"></p>
+
+
+</center>
+
+</body>
+</html>
